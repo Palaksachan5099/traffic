@@ -21,7 +21,16 @@ FROM composer:2 AS vendor
 
 WORKDIR /app
 
-# Dummy key used only during image build (override at runtime via .env / compose)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    $PHPIZE_DEPS \
+    git \
+    unzip \
+    libssl-dev \
+    pkg-config \
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV APP_KEY=base64:ZHVtbXlrZXlmb3Jkb2NrZXJidWlsZG9ubHl1c2V0aWE=
 
 COPY composer.json composer.lock ./
@@ -53,6 +62,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libonig-dev \
     libicu-dev \
+    libssl-dev \
+    pkg-config \
     && docker-php-ext-configure intl \
     && docker-php-ext-install -j"$(nproc)" \
         bcmath \
