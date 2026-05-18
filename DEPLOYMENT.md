@@ -1,4 +1,46 @@
-# Traffic App - Deployment Guide
+cd e:\xampp\htdocs\traffic
+git add RENDER_DEPLOYMENT.md render.yaml .env.render
+git commit -m "Add Render deployment configuration"
+git push origin mainAPP_NAME=Traffic
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://traffic-app.onrender.com
+APP_KEY=base64:YOUR_KEY_FROM_STEP_1
+APP_TIMEZONE=UTC
+APP_LOCALE=en
+APP_FALLBACK_LOCALE=en
+APP_MAINTENANCE_DRIVER=file
+BCRYPT_ROUNDS=12
+HASH_DRIVER=bcrypt
+DB_CONNECTION=mongodb
+DB_URI=YOUR_MONGODB_STRING_FROM_STEP_2
+MONGO_DATABASE=trafficDB
+LOG_CHANNEL=stderr
+LOG_STACK=single
+LOG_LEVEL=info
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+SESSION_DOMAIN=
+SESSION_SECURE_COOKIE=true
+SESSION_HTTP_ONLY=true
+SESSION_SAME_SITE=lax
+CACHE_STORE=file
+CACHE_PREFIX=laravel_cache
+CACHE_REDIS_CONNECTION=default
+QUEUE_CONNECTION=sync
+QUEUE_FAILED_TABLE=failed_jobs
+FILESYSTEM_DISK=local
+FILESYSTEM_VISIBILITY=private
+BROADCAST_DRIVER=log
+BROADCAST_CONNECTION=default
+MAIL_MAILER=log
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@traffic.com
+MAIL_FROM_NAME=Traffic# Traffic App - Deployment Guide
 
 Complete step-by-step guide to deploy the Traffic application to a production server.
 

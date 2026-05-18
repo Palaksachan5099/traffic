@@ -20,7 +20,7 @@
             'bg-gray-100' => ! $backgroundImage,
         ])
         @if($backgroundImage)
-            style="background-image: url('{{ asset($backgroundImage) }}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; filter: blur(8px);"
+            style="background-image: url('{{ asset($backgroundImage) }}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;"
         @endif
         >
             @if($backgroundImage)
