@@ -1,0 +1,88 @@
+services:
+  - type: web
+    name: traffic-app
+    env: docker
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    
+    envVars:
+      # Application Settings
+      - key: APP_NAME
+        value: Traffic
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        fromService:
+          type: web
+          name: traffic-app
+          property: url
+      - key: APP_TIMEZONE
+        value: UTC
+      - key: APP_LOCALE
+        value: en
+      
+      # Database Configuration
+      - key: DB_CONNECTION
+        value: mongodb
+      - key: MONGO_DATABASE
+        value: trafficDB
+      
+      # Logging
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      
+      # Session & Cache
+      - key: SESSION_DRIVER
+        value: file
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: CACHE_STORE
+        value: file
+      - key: CACHE_PREFIX
+        value: laravel_cache
+      
+      # Queue Configuration
+      - key: QUEUE_CONNECTION
+        value: sync
+      
+      # Filesystem
+      - key: FILESYSTEM_DISK
+        value: local
+      
+      # Mail Configuration (requires paid plan for actual sending)
+      - key: MAIL_MAILER
+        value: log
+      - key: MAIL_FROM_ADDRESS
+        value: noreply@traffic.com
+      - key: MAIL_FROM_NAME
+        value: Traffic App
+    
+    envVarsFile: .env.render
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader && \
+      npm install && \
+      npm run build
+    startCommand: |
+      php artisan config:cache && \
+      php artisan route:cache && \
+      php artisan view:cache && \
+      php-fpm
+
+databases:
+  - name: traffic-mongodb
+    plan: free
+    databaseName: trafficDB
+    region: oregon
+
+envVarGroups:
+  - name: MongoDB
+    envVars:
+      - key: DB_URI
+        fromDatabase:
+          name: traffic-mongodb
+          property: connectionString
